@@ -32,6 +32,8 @@ export function verifyTicketToken(token: string, secret: string): string | null 
   const id = `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
 
   const given = Buffer.from(sigPart, "base64url");
+  // Exigimos la codificación canónica: los 2 bits sobrantes del último carácter no pueden variar.
+  if (given.toString("base64url") !== sigPart) return null;
   const expected = sign(id, secret);
   if (given.length !== expected.length || !timingSafeEqual(given, expected)) return null;
   return id;
