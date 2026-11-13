@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { Alert } from "@/components/ui/Alert";
 import { Button } from "@/components/ui/Button";
 import { Field, inputClass } from "@/components/ui/Field";
@@ -10,10 +10,14 @@ const initial: ContactState = { ok: false };
 
 export function ContactForm() {
   const [state, action, pending] = useActionState(sendContactMessage, initial);
+  const okRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (state.ok) okRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [state.ok]);
 
   if (state.ok) {
     return (
-      <div className="pop-in rounded-2xl border border-ok/40 bg-ok/10 p-6">
+      <div ref={okRef} className="pop-in rounded-2xl border border-ok/40 bg-ok/10 p-6">
         <p className="font-display text-2xl font-bold">¡Mensaje enviado! 🎉</p>
         <p className="mt-1 text-ink/80">{state.message}</p>
       </div>

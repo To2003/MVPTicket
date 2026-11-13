@@ -52,7 +52,11 @@ export default async function AboutPage() {
                 key={photo.id}
                 className={
                   "group relative overflow-hidden rounded-2xl border border-line " +
-                  (i === 0 ? "col-span-2 row-span-2 aspect-square md:col-span-2" : "aspect-square")
+                  (i === 0
+                    ? "col-span-2 aspect-[4/3] md:row-span-2 md:aspect-square"
+                    : i === photos.length - 1 && photos.length % 2 === 0
+                      ? "col-span-2 aspect-[2/1] md:col-span-1 md:aspect-square"
+                      : "aspect-square")
                 }
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}

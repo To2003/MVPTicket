@@ -25,6 +25,7 @@ export function SiteHeader({ showSimulation }: { showSimulation: boolean }) {
   }, [open]);
 
   return (
+    <>
     <header className="sticky top-0 z-40 border-b border-line/60 bg-bg/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" aria-label="Ir al inicio" className="shrink-0">
@@ -65,10 +66,12 @@ export function SiteHeader({ showSimulation }: { showSimulation: boolean }) {
           </button>
         </div>
       </div>
+    </header>
 
+      {/* Fuera del <header>: su backdrop-blur haría que el `fixed` quede atrapado adentro. */}
       {open ? (
-        <div id="mobile-menu" className="pop-in fixed inset-x-0 top-16 bottom-0 z-40 bg-bg px-4 pb-10 pt-6 md:hidden">
-          <nav aria-label="Menú mobile" className="flex flex-col gap-1">
+        <div id="mobile-menu" className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-bg px-4 pb-10 pt-6 md:hidden">
+          <nav aria-label="Menú mobile" className="pop-in flex flex-col gap-1">
             {NAV.map((item) => (
               <Link key={item.href} href={item.href} className="rounded-2xl px-4 py-4 font-display text-3xl font-bold condensed">
                 {item.label}
@@ -89,7 +92,7 @@ export function SiteHeader({ showSimulation }: { showSimulation: boolean }) {
           </nav>
         </div>
       ) : null}
-    </header>
+    </>
   );
 }
 

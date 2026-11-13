@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: { default: `${brand.name} · Entradas y eventos`, template: `%s · ${brand.name}` },
   description: brand.tagline,
   applicationName: brand.name,
+  metadataBase: new URL(process.env.APP_URL || "http://localhost:3000"),
+  openGraph: { siteName: brand.name, locale: "es_AR", type: "website", title: `${brand.name} · Entradas y eventos`, description: brand.tagline },
 };
 
 export const viewport: Viewport = {

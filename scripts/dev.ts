@@ -8,6 +8,7 @@ import pg from "pg";
 import { loadEnv, requireEnv, EMBEDDED_DATA_DIR } from "./lib/env";
 import { ensureDatabase } from "./lib/embedded-pg";
 import { runMigrations } from "./lib/migrations";
+import { ensureEnvLocal } from "./setup";
 
 async function isEmpty(url: string) {
   const c = new pg.Client({ connectionString: url });
@@ -21,6 +22,7 @@ async function isEmpty(url: string) {
 }
 
 async function main() {
+  ensureEnvLocal();
   loadEnv();
   const url = requireEnv("DATABASE_URL");
   const db = await ensureDatabase(url, EMBEDDED_DATA_DIR);
