@@ -100,6 +100,34 @@ function flyerPrimavera() {
 </svg>`;
 }
 
+function flyerKaraoke() {
+  const tiles: string[] = [];
+  for (let y = -6; y <= 6; y++) {
+    for (let x = -6; x <= 6; x++) {
+      if (x * x + y * y > 40) continue;
+      const shade = ["#f8f2ea", "#c9bfd6", "#8b6cff", "#ff3d7f", "#ffffff"][(x * 7 + y * 13 + 100) % 5];
+      tiles.push(`<rect x="${540 + x * 34 - 15}" y="${430 + y * 34 - 15}" width="30" height="30" rx="4" fill="${shade}" opacity="${0.55 + ((x + y + 12) % 5) * 0.1}"/>`);
+    }
+  }
+  const rays = Array.from({ length: 12 }, (_, i) => {
+    const a = (i / 12) * Math.PI * 2;
+    return `<line x1="540" y1="430" x2="${540 + Math.cos(a) * 900}" y2="${430 + Math.sin(a) * 900}" stroke="${i % 2 ? "#ff3d7f" : "#8b6cff"}" stroke-width="40" opacity=".12"/>`;
+  }).join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
+<defs>${fontStyle}${grain("g")}<clipPath id="ball"><circle cx="540" cy="430" r="230"/></clipPath>
+<radialGradient id="bg" cx="50%" cy="32%" r="80%"><stop offset="0" stop-color="#3a1450"/><stop offset="1" stop-color="#0b0712"/></radialGradient></defs>
+<rect width="${W}" height="${H}" fill="url(#bg)"/>${rays}
+<line x1="540" y1="0" x2="540" y2="200" stroke="#c9bfd6" stroke-width="6"/>
+<circle cx="540" cy="430" r="236" fill="#1d1426"/><g clip-path="url(#ball)">${tiles.join("")}</g>
+${sparkle(720, 290, 40, "#ffffff")}${sparkle(380, 560, 26, "#d4ff3a")}
+<text x="540" y="110" text-anchor="middle" font-size="34" fill="#d4ff3a" letter-spacing="6">ALGO LINDO PRESENTA</text>
+<text x="540" y="900" text-anchor="middle" font-size="210" fill="#f8f2ea" class="c" letter-spacing="-3">KARAOKE</text>
+<text x="540" y="1040" text-anchor="middle" font-size="120" fill="#ff3d7f" class="c">DISCO INFERNO</text>
+<text x="540" y="1200" text-anchor="middle" font-size="34" fill="#f8f2ea" fill-opacity=".8" letter-spacing="4">HITS DE LOS 70 Y 80 · PELUCAS BIENVENIDAS</text>
+<rect width="${W}" height="${H}" filter="url(#g)"/>
+</svg>`;
+}
+
 /** "Foto" de fiesta: luces bokeh + siluetas de público. */
 function partyPhoto(seed: number, palette: string[], w = 1200, h = 1200) {
   const r = rng(seed);
@@ -147,6 +175,7 @@ function write(rel: string, content: string) {
 write("seed/flyers/noche-de-vinilos.svg", flyerVinilos());
 write("seed/flyers/cumbia-en-la-terraza.svg", flyerCumbia());
 write("seed/flyers/fiesta-de-primavera.svg", flyerPrimavera());
+write("seed/flyers/karaoke-disco-inferno.svg", flyerKaraoke());
 
 const palettes = [
   ["#ff3d7f", "#8b6cff", "#ffc53d"],
