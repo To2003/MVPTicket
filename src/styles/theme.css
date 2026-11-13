@@ -1,0 +1,57 @@
+/*
+ * ÚNICO lugar con colores, tipografías y radios de la marca.
+ * Para reskinear: cambiá las variables --brand-* (y si cambia la tipografía,
+ * el import correspondiente en src/styles/fonts.ts).
+ */
+:root {
+  /* Fondos y superficies */
+  --brand-bg: #0d0a0f;
+  --brand-surface: #17121b;
+  --brand-surface-2: #221a28;
+  --brand-line: #31283a;
+
+  /* Texto */
+  --brand-ink: #f8f2ea;
+  --brand-muted: #a89db3;
+
+  /* Colores de marca */
+  --brand-primary: #ff3d7f; /* rosa fiesta */
+  --brand-primary-ink: #1a0510;
+  --brand-accent: #d4ff3a; /* lima ácido */
+  --brand-accent-ink: #141a04;
+  --brand-violet: #8b6cff;
+
+  /* Estados */
+  --brand-ok: #2fe39a;
+  --brand-warn: #ffc53d;
+  --brand-danger: #ff5562;
+
+  /* Tipografías */
+  --brand-font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --brand-font-body: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+
+  /* Forma */
+  --brand-radius: 1.1rem;
+}
+
+@theme inline {
+  --color-bg: var(--brand-bg);
+  --color-surface: var(--brand-surface);
+  --color-surface-2: var(--brand-surface-2);
+  --color-line: var(--brand-line);
+  --color-ink: var(--brand-ink);
+  --color-muted: var(--brand-muted);
+  --color-primary: var(--brand-primary);
+  --color-primary-ink: var(--brand-primary-ink);
+  --color-accent: var(--brand-accent);
+  --color-accent-ink: var(--brand-accent-ink);
+  --color-violet: var(--brand-violet);
+  --color-ok: var(--brand-ok);
+  --color-warn: var(--brand-warn);
+  --color-danger: var(--brand-danger);
+
+  --font-display: var(--brand-font-display);
+  --font-sans: var(--brand-font-body);
+
+  --radius-brand: var(--brand-radius);
+}
