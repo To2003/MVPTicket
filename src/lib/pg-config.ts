@@ -42,8 +42,29 @@ export function describeDbUrl(connectionString: string | undefined) {
             ? "supabase-direct (solo IPv6: no anda en Vercel)"
             : "otro",
       hasPassword: Boolean(url.password),
+      // En los poolers de Supabase el usuario tiene que ser "postgres.<ref-del-proyecto>".
+      userFormat: url.username.startsWith("postgres.") ? "postgres.<ref>" : url.username === "postgres" ? "postgres (sin ref)" : "otro",
+      passwordHints: passwordHints(url.password),
     };
   } catch {
     return { configured: true as const, invalid: true };
   }
+}
+
+/** Pistas sobre la contraseña de la URL, sin revelarla. */
+function passwordHints(raw: string) {
+  let decoded = raw;
+  let decodes = true;
+  try {
+    decoded = decodeURIComponent(raw);
+  } catch {
+    decodes = false;
+  }
+  return {
+    length: decoded.length,
+    placeholder: /YOUR-PASSWORD/i.test(decoded),
+    hasBrackets: /[[\]]/.test(decoded),
+    hasSpaces: /\s/.test(decoded),
+    decodes,
+  };
 }
