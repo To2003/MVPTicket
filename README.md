@@ -123,7 +123,10 @@ Qué hace el webhook: no confía en el aviso. Consulta el pago a la API de MP, v
    - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`: *Project Settings → API*.
 3. `npm run db:migrate` (crea tablas, funciones, RLS y el bucket público `flyers`).
 4. `npm run seed` (datos de ejemplo + crea en Supabase Auth el usuario del primer mail de `ADMIN_EMAILS` con `SEED_ADMIN_PASSWORD`).
-5. En Supabase → *Authentication → Sign In / Providers*: **desactivá "Allow new users to sign up"**. Los admins se crean desde el dashboard (*Authentication → Users → Add user*) y además tienen que estar en `ADMIN_EMAILS`.
+
+   **Sin terminal:** los pasos 3 y 4 se pueden reemplazar pegando [`supabase/instalar-todo.sql`](supabase/instalar-todo.sql) en el **SQL Editor** de Supabase y tocando **Run** (una sola vez, sobre un proyecto nuevo). En ese caso el admin se crea a mano en *Authentication → Users → Add user* (tildando "Auto Confirm User"). El archivo se regenera con `npm run sql:bundle` si cambian las migraciones o el seed.
+5. Para revisar un deploy: `https://<tu-dominio>/api/health` dice si faltan variables, si conecta a la base y si están las migraciones (sin mostrar secretos).
+6. En Supabase → *Authentication → Sign In / Providers*: **desactivá "Allow new users to sign up"**. Los admins se crean desde el dashboard (*Authentication → Users → Add user*) y además tienen que estar en `ADMIN_EMAILS`.
 
 Con las variables de Supabase completas, el login pasa a Supabase Auth y los flyers se suben a Supabase Storage automáticamente.
 

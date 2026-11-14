@@ -15,7 +15,8 @@
     "seed": "tsx scripts/seed.ts",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:start": "tsx scripts/db-start.ts",
-    "placeholders": "tsx scripts/generate-placeholders.ts"
+    "placeholders": "tsx scripts/generate-placeholders.ts",
+    "sql:bundle": "tsx scripts/build-sql-bundle.ts"
   },
   "dependencies": {
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
