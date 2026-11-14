@@ -1,12 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import pg from "pg";
+import { pgConfig } from "../../src/lib/pg-config";
 
 export const MIGRATIONS_DIR = path.resolve(__dirname, "../../supabase/migrations");
 
 /** Aplica en orden las migraciones .sql que falten. Cada una en su propia transacción. */
 export async function runMigrations(url: string, opts: { quiet?: boolean } = {}): Promise<string[]> {
-  const client = new pg.Client({ connectionString: url });
+  const client = new pg.Client(pgConfig(url));
   await client.connect();
   const applied: string[] = [];
   try {

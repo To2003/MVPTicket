@@ -1,5 +1,6 @@
 import "server-only";
 import pg from "pg";
+import { pgConfig } from "@/lib/pg-config";
 
 // `date` como string ISO (YYYY-MM-DD), sin que pg lo convierta a Date con zona horaria.
 pg.types.setTypeParser(1082, (v) => v);
@@ -10,7 +11,10 @@ export function pool(): pg.Pool {
   if (!globalForPg.__algoLindoPool) {
     const connectionString = process.env.DATABASE_URL;
     if (!connectionString) throw new Error("Falta DATABASE_URL");
-    globalForPg.__algoLindoPool = new pg.Pool({ connectionString, max: Number(process.env.PG_POOL_MAX ?? 10) });
+    // En serverless (Vercel) cada instancia abre su propio pool: lo mantenemos chico.
+    const max = Number(process.env.PG_POOL_MAX ?? (process.env.VERCEL ? 3 : 10));
+    globalForPg.__algoLindoPool = new pg.Pool(pgConfig(connectionString, { max, idleTimeoutMillis: 10_000 }));
+    globalForPg.__algoLindoPool.on("error", (err) => console.error("[db] Error en una conexión inactiva:", err.message));
   }
   return globalForPg.__algoLindoPool;
 }

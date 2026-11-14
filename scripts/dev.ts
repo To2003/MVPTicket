@@ -5,13 +5,14 @@
 import { spawn, spawnSync } from "node:child_process";
 import path from "node:path";
 import pg from "pg";
+import { pgConfig } from "../src/lib/pg-config";
 import { loadEnv, requireEnv, EMBEDDED_DATA_DIR } from "./lib/env";
 import { ensureDatabase } from "./lib/embedded-pg";
 import { runMigrations } from "./lib/migrations";
 import { ensureEnvLocal } from "./setup";
 
 async function isEmpty(url: string) {
-  const c = new pg.Client({ connectionString: url });
+  const c = new pg.Client(pgConfig(url));
   await c.connect();
   try {
     const r = await c.query<{ n: string }>("select count(*) as n from public.events");

@@ -3,6 +3,7 @@
  * No toca usuarios de Supabase Auth salvo crear el admin de prueba si no existe.
  */
 import pg from "pg";
+import { pgConfig } from "../src/lib/pg-config";
 import { createClient } from "@supabase/supabase-js";
 import { loadEnv, requireEnv, EMBEDDED_DATA_DIR } from "./lib/env";
 import { ensureDatabase } from "./lib/embedded-pg";
@@ -102,7 +103,7 @@ async function main() {
   loadEnv();
   const url = requireEnv("DATABASE_URL");
   const db = await ensureDatabase(url, EMBEDDED_DATA_DIR);
-  const c = new pg.Client({ connectionString: url });
+  const c = new pg.Client(pgConfig(url));
   try {
     await runMigrations(url, { quiet: true });
     await c.connect();

@@ -6,9 +6,10 @@ import fs from "node:fs";
 import path from "node:path";
 import EmbeddedPostgres from "embedded-postgres";
 import pg from "pg";
+import { pgConfig } from "../../src/lib/pg-config";
 
 export async function canConnect(url: string): Promise<boolean> {
-  const client = new pg.Client({ connectionString: url, connectionTimeoutMillis: 2000 });
+  const client = new pg.Client(pgConfig(url, { connectionTimeoutMillis: 2000 }));
   try {
     await client.connect();
     await client.end();
